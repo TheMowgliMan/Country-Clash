@@ -1,7 +1,7 @@
 extends Node2D
 
 var map = []
-var map_size_square = 1280
+var map_size_square = 4096
 var map_generated = false
 
 var terrain_noise = OpenSimplexNoise.new()
