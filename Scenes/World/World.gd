@@ -34,7 +34,7 @@ func gen_map():
 			terrain_noise.persistence = terrain_persistence + (adjuster_noise * 0.25)
 			
 			var noise = terrain_noise.get_noise_2d(x, y)
-			if noise > 0:
+			if noise > 0.11:
 				set_terrain_map_item(x, y, 10, 255, 50)
 			else:
 				set_terrain_map_item(x, y, 70, 70, 230)
