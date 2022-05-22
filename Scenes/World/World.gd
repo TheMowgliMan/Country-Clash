@@ -55,8 +55,8 @@ func _ready():
 	terrain_noise.seed = randi()
 	terrain_noise.octaves = 5
 	terrain_noise.period = 128
-	terrain_noise.persistence = 0.8
-	terrain_noise.lacunarity = 3
+	terrain_noise.persistence = 0.6
+	terrain_noise.lacunarity = 2.5
 	
 	gen_map()
 	
