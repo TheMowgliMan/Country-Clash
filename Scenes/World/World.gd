@@ -1,10 +1,11 @@
 extends Node2D
 
 var map = []
-var map_size_square = 720
+var map_size_square = 1920
 var map_generated = false
 
 var terrain_noise = OpenSimplexNoise.new()
+var big_noise = OpenSimplexNoise.new()
 var terrain_adjuster = OpenSimplexNoise.new()
 var terrain_persistence = 0.6
 
@@ -33,11 +34,13 @@ func gen_map():
 			var adjuster_noise = terrain_adjuster.get_noise_2d(x, y)
 			terrain_noise.persistence = terrain_persistence + (adjuster_noise * 0.25)
 			
-			var noise = terrain_noise.get_noise_2d(x, y)
+			var terr_noise = terrain_noise.get_noise_2d(x, y)
+			var b_noise = big_noise.get_noise_2d(x, y)
+			var noise = ((terr_noise * 0.5) + b_noise) / 1.5
 			if noise > 0.11:
-				set_terrain_map_item(x, y, 10, 255, 50)
+				set_terrain_map_item(x, y, 10 + round((noise-0.11) * 245), 128 + round((noise-0.11) * 127), 25 + round((noise-0.11) * 230))
 			else:
-				set_terrain_map_item(x, y, 70, 70, 230)
+				set_terrain_map_item(x, y, 70 + round((noise) * 70), 70 + round((noise) * 70), 230 + round((noise) * 200))
 			
 func set_image_from_map():
 	# COPY Copied from docs
@@ -82,13 +85,19 @@ func set_image_from_map_arg(map_arg, map_size_square_arg):
 func _ready():
 	terrain_noise.seed = randi()
 	terrain_noise.octaves = 5
-	terrain_noise.period = 128
+	terrain_noise.period = 384
 	terrain_noise.persistence = terrain_persistence
 	terrain_noise.lacunarity = 3
 	
+	big_noise.seed = randi()
+	big_noise.octaves = 5
+	big_noise.period = 512
+	big_noise.persistence = terrain_persistence
+	big_noise.lacunarity = 3
+	
 	terrain_adjuster.seed = randi()
 	terrain_adjuster.octaves = 3
-	terrain_adjuster.period = 256
+	terrain_adjuster.period = 384
 	terrain_adjuster.persistence = 0.6
 	terrain_adjuster.lacunarity = 2.5
 

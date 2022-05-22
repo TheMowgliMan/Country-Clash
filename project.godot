@@ -19,6 +19,7 @@ config/windows_native_icon="res://Res/Textures/Logo/logo.ico"
 
 [debug]
 
+settings/fps/force_fps=400
 settings/stdout/print_fps=true
 
 [display]
