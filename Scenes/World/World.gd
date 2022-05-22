@@ -1,10 +1,12 @@
 extends Node2D
 
 var map = []
-var map_size_square = 512
+var map_size_square = 1280
 var map_generated = false
 
 var terrain_noise = OpenSimplexNoise.new()
+var terrain_adjuster = OpenSimplexNoise.new()
+var terrain_persistence = 0.6
 
 var frame = 1
 var thread = null
@@ -28,6 +30,9 @@ func gen_map():
 	
 	for x in range(0, map_size_square):
 		for y in range(0, map_size_square):
+			var adjuster_noise = terrain_adjuster.get_noise_2d(x, y)
+			terrain_noise.persistence = terrain_persistence + (adjuster_noise * 0.25)
+			
 			var noise = terrain_noise.get_noise_2d(x, y)
 			if noise > 0:
 				set_terrain_map_item(x, y, 10, 255, 50)
@@ -78,8 +83,14 @@ func _ready():
 	terrain_noise.seed = randi()
 	terrain_noise.octaves = 5
 	terrain_noise.period = 128
-	terrain_noise.persistence = 0.6
-	terrain_noise.lacunarity = 2.5
+	terrain_noise.persistence = terrain_persistence
+	terrain_noise.lacunarity = 3
+	
+	terrain_adjuster.seed = randi()
+	terrain_adjuster.octaves = 3
+	terrain_adjuster.period = 256
+	terrain_adjuster.persistence = 0.6
+	terrain_adjuster.lacunarity = 2.5
 
 	gen_map()
 
@@ -106,4 +117,5 @@ func _process(delta):
 	frame += 1
 	
 func _exit_tree():
-	thread.wait_to_finish()
+	if not thread == null:
+		thread.wait_to_finish()
