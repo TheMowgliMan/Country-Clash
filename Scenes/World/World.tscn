@@ -14,5 +14,36 @@ script = ExtResource( 1 )
 script = ExtResource( 2 )
 speed = 500
 
-[node name="TempCamera" type="Camera2D" parent="Scroller"]
+[node name="Camera" type="Camera2D" parent="Scroller"]
 current = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ZoomContainer" type="MarginContainer" parent="UI"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -77.0
+margin_bottom = 44.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ZoomButtons" type="VBoxContainer" parent="UI/ZoomContainer"]
+margin_right = 77.0
+margin_bottom = 44.0
+
+[node name="ZoomIn" type="Button" parent="UI/ZoomContainer/ZoomButtons"]
+margin_right = 77.0
+margin_bottom = 20.0
+text = "Zoom In"
+
+[node name="ZoomOut" type="Button" parent="UI/ZoomContainer/ZoomButtons"]
+margin_top = 24.0
+margin_right = 77.0
+margin_bottom = 44.0
+text = "Zoom Out"
+
+[connection signal="button_down" from="UI/ZoomContainer/ZoomButtons/ZoomIn" to="." method="_on_ZoomIn_button_down"]
+[connection signal="button_up" from="UI/ZoomContainer/ZoomButtons/ZoomIn" to="." method="_on_ZoomIn_button_up"]
+[connection signal="button_down" from="UI/ZoomContainer/ZoomButtons/ZoomOut" to="." method="_on_ZoomOut_button_down"]
+[connection signal="button_up" from="UI/ZoomContainer/ZoomButtons/ZoomOut" to="." method="_on_ZoomOut_button_up"]

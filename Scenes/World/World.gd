@@ -14,10 +14,16 @@ var frame = 1
 var update_sprite_thread = null
 var refresh_map_thread = null
 
+var zoom_in = false
+var zoom_out = false
+
 onready var map_sprite = $RenderManager/MapRender
+onready var camera = $Scroller/Camera
 
 var draw_mutex = Mutex.new()
 var assign_map_mutex = Mutex.new()
+
+var map_scale = 1
 
 func get_terrain_texture_map(x, y):
 	# HACK: Basic map is stored as RGB8 values
@@ -172,6 +178,13 @@ func _process(delta):
 		refresh_map_thread = Thread.new()
 		refresh_map_thread.start(self, "rm_thread", [texture_map, map_size_square])
 		
+	if zoom_in:
+		map_scale -= (map_scale / 35.0)
+	if zoom_out:
+		map_scale += (map_scale / 35.0)
+		
+	camera.zoom = Vector2(map_scale, map_scale)
+		
 	frame += 1
 	
 func _exit_tree():
@@ -179,3 +192,21 @@ func _exit_tree():
 		update_sprite_thread.wait_to_finish()
 	if not refresh_map_thread == null:
 		refresh_map_thread.wait_to_finish()
+
+
+func _on_ZoomIn_button_down():
+	zoom_out = false
+	zoom_in = true
+
+
+func _on_ZoomIn_button_up():
+	zoom_in = false
+
+
+func _on_ZoomOut_button_down():
+	zoom_out = true
+	zoom_in = false
+
+
+func _on_ZoomOut_button_up():
+	zoom_out = false
