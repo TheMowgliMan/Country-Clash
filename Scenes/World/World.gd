@@ -2,7 +2,7 @@ extends Node2D
 
 var texture_map = []
 var map = []
-var map_size_square = 900
+var map_size_square = 512
 var map_generated = false
 
 var terrain_noise = OpenSimplexNoise.new()
@@ -61,8 +61,10 @@ func refresh_map():
 		for y in range(0, map_size_square):
 			var noise = get_terrain_map(x, y)
 			
-			if noise > 0.11:
+			if noise > 0.12:
 				set_terrain_texture_map(x, y, 10 + round((noise-0.11) * 245), 128 + round((noise-0.11) * 127), 25 + round((noise-0.11) * 230))
+			elif noise > 0.11:
+				set_terrain_texture_map(x, y, 206, 202, 159)
 			else:
 				set_terrain_texture_map(x, y, 70 + round((noise) * 70), 70 + round((noise) * 70), 230 + round((noise) * 200))
 
@@ -71,8 +73,10 @@ func refresh_map_arg(mss):
 		for y in range(0, mss):
 			var noise = get_terrain_map(x, y)
 			
-			if noise > 0.11:
+			if noise > 0.12:
 				set_terrain_texture_map(x, y, 10 + round((noise-0.11) * 245), 128 + round((noise-0.11) * 127), 25 + round((noise-0.11) * 230))
+			elif noise > 0.11:
+				set_terrain_texture_map(x, y, 206, 202, 159)
 			else:
 				set_terrain_texture_map(x, y, 70 + round((noise) * 70), 70 + round((noise) * 70), 230 + round((noise) * 200))
 
