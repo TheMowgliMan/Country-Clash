@@ -1,7 +1,8 @@
 extends Node2D
 
+var texture_map = []
 var map = []
-var map_size_square = 1920
+var map_size_square = 900
 var map_generated = false
 
 var terrain_noise = OpenSimplexNoise.new()
@@ -10,24 +11,37 @@ var terrain_adjuster = OpenSimplexNoise.new()
 var terrain_persistence = 0.6
 
 var frame = 1
-var thread = null
+var update_sprite_thread = null
+var refresh_map_thread = null
 
 onready var map_sprite = $RenderManager/MapRender
 
 var draw_mutex = Mutex.new()
+var assign_map_mutex = Mutex.new()
 
-func get_terrain_map_item(x, y):
+func get_terrain_texture_map(x, y):
 	# HACK: Basic map is stored as RGB8 values
-	return [map[x * (map_size_square * 3) + y * 3], map[x * (map_size_square * 3) + y * 3 + 1], map[x * (map_size_square * 3) + y * 3 + 2]]
+	return [texture_map[x * (map_size_square * 3) + y * 3], texture_map[x * (map_size_square * 3) + y * 3 + 1], texture_map[x * (map_size_square * 3) + y * 3 + 2]]
 	
-func set_terrain_map_item(x, y, data1, data2, data3):
-	map[x * (map_size_square * 3) + y * 3] = data1
-	map[x * (map_size_square * 3) + y * 3 + 1] = data2
-	map[x * (map_size_square * 3) + y * 3 + 2] = data3
+func set_terrain_texture_map(x, y, data1, data2, data3):
+	assign_map_mutex.lock()
+	texture_map[x * (map_size_square * 3) + y * 3] = data1
+	texture_map[x * (map_size_square * 3) + y * 3 + 1] = data2
+	texture_map[x * (map_size_square * 3) + y * 3 + 2] = data3
+	assign_map_mutex.unlock()
+
+func set_terrain_map(x, y, data):
+	assign_map_mutex.lock()
+	map[x * map_size_square + y] = data
+	assign_map_mutex.unlock()
+	
+func get_terrain_map(x, y):
+	return map[x * map_size_square + y]
 
 func gen_map():
 	for _i in range(0, map_size_square * map_size_square * 3):
 		map.append(0)
+		texture_map.append(0)
 	
 	for x in range(0, map_size_square):
 		for y in range(0, map_size_square):
@@ -37,17 +51,38 @@ func gen_map():
 			var terr_noise = terrain_noise.get_noise_2d(x, y)
 			var b_noise = big_noise.get_noise_2d(x, y)
 			var noise = ((terr_noise * 0.5) + b_noise) / 1.5
+			
+			set_terrain_map(x, y, noise)
+	
+	refresh_map()
+			
+func refresh_map():
+	for x in range(0, map_size_square):
+		for y in range(0, map_size_square):
+			var noise = get_terrain_map(x, y)
+			
 			if noise > 0.11:
-				set_terrain_map_item(x, y, 10 + round((noise-0.11) * 245), 128 + round((noise-0.11) * 127), 25 + round((noise-0.11) * 230))
+				set_terrain_texture_map(x, y, 10 + round((noise-0.11) * 245), 128 + round((noise-0.11) * 127), 25 + round((noise-0.11) * 230))
 			else:
-				set_terrain_map_item(x, y, 70 + round((noise) * 70), 70 + round((noise) * 70), 230 + round((noise) * 200))
+				set_terrain_texture_map(x, y, 70 + round((noise) * 70), 70 + round((noise) * 70), 230 + round((noise) * 200))
+
+func refresh_map_arg(mss):
+	for x in range(0, mss):
+		for y in range(0, mss):
+			var noise = get_terrain_map(x, y)
+			
+			if noise > 0.11:
+				set_terrain_texture_map(x, y, 10 + round((noise-0.11) * 245), 128 + round((noise-0.11) * 127), 25 + round((noise-0.11) * 230))
+			else:
+				set_terrain_texture_map(x, y, 70 + round((noise) * 70), 70 + round((noise) * 70), 230 + round((noise) * 200))
+
 			
 func set_image_from_map():
 	# COPY Copied from docs
 	var texture = ImageTexture.new()
 	var image = Image.new()
 	
-	var bytearray_map = PoolByteArray(map)
+	var bytearray_map = PoolByteArray(texture_map)
 	
 	if not bytearray_map.size() == map_size_square * map_size_square * 3:
 		push_warning("WARNING: Map size and Image are not the same size!")
@@ -81,7 +116,7 @@ func set_image_from_map_arg(map_arg, map_size_square_arg):
 	texture.create_from_image(image)
 	
 	return texture
-	
+
 func _ready():
 	terrain_noise.seed = randi()
 	terrain_noise.octaves = 5
@@ -114,17 +149,29 @@ func sifm_thread(data):
 	map_sprite.texture = texture
 	draw_mutex.unlock()
 	
+func rm_thread(mss):
+	refresh_map_arg(mss)
+	
 func _process(delta):
-	if not thread == null:
-		if not thread.is_alive():
-			thread.wait_to_finish()
-			thread = null
-	if frame % 60 == 0 and thread == null:
-		thread = Thread.new()
-		thread.start(self, "sifm_thread", [map, map_size_square])
+	if not update_sprite_thread == null:
+		if not update_sprite_thread.is_alive():
+			update_sprite_thread.wait_to_finish()
+			update_sprite_thread = null
+	if not refresh_map_thread == null:
+		if not refresh_map_thread.is_alive():
+			refresh_map_thread.wait_to_finish()
+			refresh_map_thread = null
+	if frame % 60 == 0 and update_sprite_thread == null:
+		update_sprite_thread = Thread.new()
+		update_sprite_thread.start(self, "sifm_thread", [texture_map, map_size_square])
+	if frame % 60 == 20 and refresh_map_thread == null:
+		refresh_map_thread = Thread.new()
+		refresh_map_thread.start(self, "rm_thread", [texture_map, map_size_square])
 		
 	frame += 1
 	
 func _exit_tree():
-	if not thread == null:
-		thread.wait_to_finish()
+	if not update_sprite_thread == null:
+		update_sprite_thread.wait_to_finish()
+	if not refresh_map_thread == null:
+		refresh_map_thread.wait_to_finish()
