@@ -2,7 +2,7 @@ extends Node2D
 
 var texture_map = []
 var map = []
-var map_size_square = 512
+export var map_size_square = 512
 var map_generated = false
 
 var terrain_noise = OpenSimplexNoise.new()

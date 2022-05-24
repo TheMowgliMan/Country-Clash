@@ -38,6 +38,11 @@ convert_text_resources_to_binary_on_export=true
 
 enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg" )
 
+[gui]
+
+theme/custom="res://Res/Themes/MenuTheme.tres"
+theme/custom_font="res://Res/Fonts/Res/macondo.tres"
+
 [importer_defaults]
 
 texture={

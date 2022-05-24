@@ -22,25 +22,25 @@ current = true
 [node name="ZoomContainer" type="MarginContainer" parent="UI"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -77.0
-margin_bottom = 44.0
+margin_left = -88.0
+margin_bottom = 60.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ZoomButtons" type="VBoxContainer" parent="UI/ZoomContainer"]
-margin_right = 77.0
-margin_bottom = 44.0
+margin_right = 88.0
+margin_bottom = 60.0
 
 [node name="ZoomIn" type="Button" parent="UI/ZoomContainer/ZoomButtons"]
-margin_right = 77.0
-margin_bottom = 20.0
+margin_right = 88.0
+margin_bottom = 28.0
 text = "Zoom In"
 
 [node name="ZoomOut" type="Button" parent="UI/ZoomContainer/ZoomButtons"]
-margin_top = 24.0
-margin_right = 77.0
-margin_bottom = 44.0
+margin_top = 32.0
+margin_right = 88.0
+margin_bottom = 60.0
 text = "Zoom Out"
 
 [connection signal="button_down" from="UI/ZoomContainer/ZoomButtons/ZoomIn" to="." method="_on_ZoomIn_button_down"]
