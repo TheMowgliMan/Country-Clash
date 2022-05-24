@@ -1,0 +1,27 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://addons/eh_jogos.shared_variables/DictionaryVariable.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+value = {
+"ArrayVariable": "Resource",
+"BoolVariable": "Resource",
+"BoolVariableCheckbox": "CheckBox",
+"CategoryOptionalData": "Resource",
+"CategoryOptionalDataDict": "Resource",
+"CategoryOptions": "VBoxContainer",
+"Collapsible": "Node",
+"DictionaryVariable": "Resource",
+"FilePathLineEdit": "HBoxContainer",
+"HugoMarkdownDocsExporter": "MarkdownDocsExporter",
+"JsonIO": "Reference",
+"MarkdownDocsExporter": "JsonIO",
+"PathLineEdit": "LineEdit",
+"ReferenceFormatter": "JsonIO",
+"ResizableTextEdit": "TextEdit",
+"StringArrayVariable": "Resource",
+"StringVariable": "Resource",
+"StringVariableArray": "Resource",
+"StringVariableLineEdit": "LineEdit"
+}
