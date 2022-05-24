@@ -11,6 +11,7 @@ config_version=4
 [application]
 
 config/name="Country Clash- The Game"
+run/main_scene="res://Scenes/World/MainMenu.tscn"
 boot_splash/image="res://icon.png"
 boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0.137255, 0.470588, 0.180392, 1 )
