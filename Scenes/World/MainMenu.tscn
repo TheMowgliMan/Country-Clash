@@ -4,55 +4,62 @@
 [ext_resource path="res://Scenes/World/MainMenu.gd" type="Script" id=2]
 [ext_resource path="res://Res/Themes/MenuTheme.tres" type="Theme" id=3]
 
-[node name="Menu" type="Node2D"]
+[node name="Menu" type="CanvasLayer"]
 script = ExtResource( 2 )
 
-[node name="ButtonsContainer" type="VBoxContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -150.0
-margin_top = -95.0
-margin_right = 150.0
-margin_bottom = 95.0
+[node name="Buttons" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 64
+custom_constants/margin_top = 64
+custom_constants/margin_left = 64
+custom_constants/margin_bottom = 64
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="Buttons"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 1216.0
+margin_bottom = 656.0
 alignment = 1
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Start" type="Button" parent="ButtonsContainer"]
-margin_top = 53.0
-margin_right = 300.0
-margin_bottom = 71.0
+[node name="Start" type="Button" parent="Buttons/ButtonsContainer"]
+margin_top = 254.0
+margin_right = 1152.0
+margin_bottom = 272.0
 theme = ExtResource( 3 )
 text = "START"
 
-[node name="Options" type="Button" parent="ButtonsContainer"]
-margin_top = 75.0
-margin_right = 300.0
-margin_bottom = 93.0
+[node name="Options" type="Button" parent="Buttons/ButtonsContainer"]
+margin_top = 276.0
+margin_right = 1152.0
+margin_bottom = 294.0
+hint_tooltip = "Does nothing, as of yet."
 theme = ExtResource( 3 )
 disabled = true
 text = "OPTIONS"
 
-[node name="Credits" type="Button" parent="ButtonsContainer"]
-margin_top = 97.0
-margin_right = 300.0
-margin_bottom = 115.0
+[node name="Credits" type="Button" parent="Buttons/ButtonsContainer"]
+margin_top = 298.0
+margin_right = 1152.0
+margin_bottom = 316.0
+hint_tooltip = "Does nothing, as of yet."
 theme = ExtResource( 3 )
 disabled = true
 text = "CREDITS"
 
-[node name="Quit" type="Button" parent="ButtonsContainer"]
-margin_top = 119.0
-margin_right = 300.0
-margin_bottom = 137.0
+[node name="Quit" type="Button" parent="Buttons/ButtonsContainer"]
+margin_top = 320.0
+margin_right = 1152.0
+margin_bottom = 338.0
 theme = ExtResource( 3 )
 text = "QUIT"
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[connection signal="pressed" from="ButtonsContainer/Start" to="." method="_on_Start_pressed"]
-[connection signal="pressed" from="ButtonsContainer/Quit" to="." method="_on_Quit_pressed"]
+[connection signal="pressed" from="Buttons/ButtonsContainer/Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="Buttons/ButtonsContainer/Quit" to="." method="_on_Quit_pressed"]
