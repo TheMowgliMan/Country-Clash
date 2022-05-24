@@ -1,11 +1,11 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Scenes/World/ButtonsContainer.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/World/MainMenu.gd" type="Script" id=2]
-[ext_resource path="res://Res/Themes/MenuTheme.tres" type="Theme" id=3]
+[ext_resource path="res://Scenes/MainMenu/ButtonsContainer.gd" type="Script" id=1]
+[ext_resource path="res://Res/Themes/MenuTheme.tres" type="Theme" id=2]
+[ext_resource path="res://Scenes/MainMenu/MainMenu.gd" type="Script" id=3]
 
 [node name="Menu" type="Node2D"]
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 
 [node name="ButtonsContainer" type="VBoxContainer" parent="."]
 anchor_left = 0.5
@@ -23,14 +23,14 @@ script = ExtResource( 1 )
 margin_top = 53.0
 margin_right = 300.0
 margin_bottom = 71.0
-theme = ExtResource( 3 )
+theme = ExtResource( 2 )
 text = "START"
 
 [node name="Options" type="Button" parent="ButtonsContainer"]
 margin_top = 75.0
 margin_right = 300.0
 margin_bottom = 93.0
-theme = ExtResource( 3 )
+theme = ExtResource( 2 )
 disabled = true
 text = "OPTIONS"
 
@@ -38,7 +38,7 @@ text = "OPTIONS"
 margin_top = 97.0
 margin_right = 300.0
 margin_bottom = 115.0
-theme = ExtResource( 3 )
+theme = ExtResource( 2 )
 disabled = true
 text = "CREDITS"
 
@@ -46,13 +46,8 @@ text = "CREDITS"
 margin_top = 119.0
 margin_right = 300.0
 margin_bottom = 137.0
-theme = ExtResource( 3 )
+theme = ExtResource( 2 )
 text = "QUIT"
-
-[node name="CenterContainer" type="CenterContainer" parent="."]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
 
 [connection signal="pressed" from="ButtonsContainer/Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="ButtonsContainer/Quit" to="." method="_on_Quit_pressed"]
