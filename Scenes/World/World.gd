@@ -79,6 +79,10 @@ func gen_map():
 			
 			# Sets the map at that spot
 			set_terrain_map(x, y, noise)
+			
+	# Generate Cities
+	for i in range(0, map_size_square * map_size_square / (32 * 32)):
+		
 	
 	# Add the textures
 	refresh_map()
