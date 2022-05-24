@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/World/ButtonsContainer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/World/MainMenu.gd" type="Script" id=2]
 [ext_resource path="res://Res/Themes/MenuTheme.tres" type="Theme" id=3]
+[ext_resource path="res://Res/Fonts/Res/macondo.tres" type="DynamicFont" id=4]
 
 [node name="Menu" type="CanvasLayer"]
 script = ExtResource( 2 )
@@ -42,6 +43,7 @@ margin_top = 234.0
 margin_right = 1152.0
 margin_bottom = 262.0
 theme = ExtResource( 3 )
+custom_fonts/font = ExtResource( 4 )
 text = "START"
 
 [node name="Options" type="Button" parent="Buttons/ButtonsContainer"]
@@ -50,6 +52,7 @@ margin_right = 1152.0
 margin_bottom = 294.0
 hint_tooltip = "Does nothing, as of yet."
 theme = ExtResource( 3 )
+custom_fonts/font = ExtResource( 4 )
 disabled = true
 text = "OPTIONS"
 
@@ -59,6 +62,7 @@ margin_right = 1152.0
 margin_bottom = 326.0
 hint_tooltip = "Does nothing, as of yet."
 theme = ExtResource( 3 )
+custom_fonts/font = ExtResource( 4 )
 disabled = true
 text = "CREDITS"
 
@@ -67,6 +71,7 @@ margin_top = 330.0
 margin_right = 1152.0
 margin_bottom = 358.0
 theme = ExtResource( 3 )
+custom_fonts/font = ExtResource( 4 )
 text = "QUIT"
 
 [connection signal="pressed" from="Buttons/ButtonsContainer/Start" to="." method="_on_Start_pressed"]

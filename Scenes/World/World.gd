@@ -136,6 +136,8 @@ func set_image_from_map():
 	
 	# Create a texture from the image
 	texture.create_from_image(image)
+	# Remove filters
+	texture.flags = 0
 	
 	# Return it
 	return texture
@@ -158,6 +160,8 @@ func set_image_from_map_arg(map_arg, map_size_square_arg):
 	image.create_from_data(map_size_square_arg, map_size_square_arg, false, 4, bytearray_map)
 	
 	texture.create_from_image(image)
+	
+	texture.flags = 0
 	
 	return texture
 
