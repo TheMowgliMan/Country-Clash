@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Res/Textures/Cities/CityPoint-png.png" type="Texture" id=1]
+
+[node name="City" type="Node2D"]
+
+[node name="Marker" type="Sprite" parent="."]
+position = Vector2( 54, 46 )
+scale = Vector2( 0.15, 0.15 )
+texture = ExtResource( 1 )

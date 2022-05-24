@@ -271,3 +271,19 @@ func _on_ZoomOut_button_down():
 
 func _on_ZoomOut_button_up():
 	zoom_out = false
+
+# Generates city names
+func generate_city_name():
+	var vowels = ["a", "e", "i", "o", "u", "ee", "oo", "aa"]
+	var consonants = ["q", "w", "r", "t", "y", "p", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", "'"]
+	
+	var result = ""
+	
+	# Combine the letters into some words
+	for i in range(0, rand_range(2, 4)):
+		result = result + consonants[rand_range(0, len(consonants) - 1)] + vowels[rand_range(0, len(vowels) - 1)]
+		
+		if rand_range(1, 3) == 1:
+			result = result + consonants[rand_range(0, len(consonants) - 1)]
+			
+	return result.capitalize()

@@ -164,7 +164,9 @@ theme/custom_font="res://Res/Fonts/Res/nobile.tres"
 [importer_defaults]
 
 texture={
-"flags/filter": false
+"flags/anisotropic": true,
+"flags/filter": false,
+"flags/mipmaps": true
 }
 
 [input]
