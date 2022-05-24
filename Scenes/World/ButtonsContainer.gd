@@ -1,8 +1,10 @@
 extends VBoxContainer
 
-var newcenter;
-var oldcenter;
-var size = self.rect_size / 2
+
+# Not needed
+#var newcenter;
+#var oldcenter;
+#var size = self.rect_size / 2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
