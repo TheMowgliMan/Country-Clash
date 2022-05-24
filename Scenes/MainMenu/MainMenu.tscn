@@ -7,47 +7,52 @@
 [node name="Menu" type="Node2D"]
 script = ExtResource( 3 )
 
-[node name="ButtonsContainer" type="VBoxContainer" parent="."]
+[node name="MenuContainer" type="VBoxContainer" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -150.0
-margin_top = -95.0
+margin_top = -90.0
 margin_right = 150.0
-margin_bottom = 95.0
+margin_bottom = 90.0
 alignment = 1
 script = ExtResource( 1 )
 
-[node name="Start" type="Button" parent="ButtonsContainer"]
-margin_top = 53.0
+[node name="ButtonsContainer" type="VBoxContainer" parent="MenuContainer"]
+margin_top = 48.0
 margin_right = 300.0
-margin_bottom = 71.0
+margin_bottom = 132.0
+alignment = 1
+
+[node name="Start" type="Button" parent="MenuContainer/ButtonsContainer"]
+margin_right = 300.0
+margin_bottom = 18.0
 theme = ExtResource( 2 )
 text = "START"
 
-[node name="Options" type="Button" parent="ButtonsContainer"]
-margin_top = 75.0
+[node name="Options" type="Button" parent="MenuContainer/ButtonsContainer"]
+margin_top = 22.0
 margin_right = 300.0
-margin_bottom = 93.0
+margin_bottom = 40.0
 theme = ExtResource( 2 )
 disabled = true
 text = "OPTIONS"
 
-[node name="Credits" type="Button" parent="ButtonsContainer"]
-margin_top = 97.0
+[node name="Credits" type="Button" parent="MenuContainer/ButtonsContainer"]
+margin_top = 44.0
 margin_right = 300.0
-margin_bottom = 115.0
+margin_bottom = 62.0
 theme = ExtResource( 2 )
 disabled = true
 text = "CREDITS"
 
-[node name="Quit" type="Button" parent="ButtonsContainer"]
-margin_top = 119.0
+[node name="Quit" type="Button" parent="MenuContainer/ButtonsContainer"]
+margin_top = 66.0
 margin_right = 300.0
-margin_bottom = 137.0
+margin_bottom = 84.0
 theme = ExtResource( 2 )
 text = "QUIT"
 
-[connection signal="pressed" from="ButtonsContainer/Start" to="." method="_on_Start_pressed"]
-[connection signal="pressed" from="ButtonsContainer/Quit" to="." method="_on_Quit_pressed"]
+[connection signal="pressed" from="MenuContainer/ButtonsContainer/Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="MenuContainer/ButtonsContainer/Quit" to="." method="_on_Quit_pressed"]
