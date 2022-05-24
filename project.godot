@@ -159,7 +159,7 @@ enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/e
 [gui]
 
 theme/custom="res://Res/Themes/MenuTheme.tres"
-theme/custom_font="res://Res/Fonts/Res/macondo.tres"
+theme/custom_font="res://Res/Fonts/Res/nobile.tres"
 
 [importer_defaults]
 
