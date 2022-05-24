@@ -1,18 +1,8 @@
-<<<<<<< Updated upstream
-[gd_scene load_steps=3 format=2]
-
-[ext_resource path="res://Res/Textures/Cities/CityPoint-png.png" type="Texture" id=1]
-[ext_resource path="res://Scenes/Cities/City.gd" type="Script" id=2]
-
-[node name="City" type="Node2D"]
-script = ExtResource( 2 )
-=======
 [gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://Res/Textures/Cities/CityPoint-png.png" type="Texture" id=1]
 
 [node name="City" type="Node2D"]
->>>>>>> Stashed changes
 
 [node name="Marker" type="Sprite" parent="."]
 scale = Vector2( 0.15, 0.15 )
