@@ -2,6 +2,9 @@ extends Node2D
 
 var texture_map = []
 var map = []
+
+# Format: ..., {"name" : "citynamia", "position" : Vector2(23, 32), "population": 32000}, ...
+var cities = []
 export var map_size_square = 512
 var map_generated = false
 
