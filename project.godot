@@ -8,6 +8,124 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Resource",
+"class": "ArrayVariable",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.shared_variables/Array/ArrayVariable.gd"
+}, {
+"base": "Resource",
+"class": "BoolVariable",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.shared_variables/BoolVariable.gd"
+}, {
+"base": "CheckBox",
+"class": "BoolVariableCheckbox",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.docs-exporter/editor_uis/ui_elements/bool_checkbox/BoolVariableCheckbox.gd"
+}, {
+"base": "Resource",
+"class": "CategoryOptionalData",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.docs-exporter/custom_resources/CategoryOptionalData.gd"
+}, {
+"base": "Resource",
+"class": "CategoryOptionalDataDict",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.docs-exporter/custom_resources/CategoryOptionalDataDict.gd"
+}, {
+"base": "VBoxContainer",
+"class": "CategoryOptions",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.docs-exporter/editor_uis/ui_elements/CategoryOptionsLine.gd"
+}, {
+"base": "Node",
+"class": "Collapsible",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.docs-exporter/editor_uis/ui_elements/Collapsible.gd"
+}, {
+"base": "Resource",
+"class": "DictionaryVariable",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.shared_variables/DictionaryVariable.gd"
+}, {
+"base": "HBoxContainer",
+"class": "FilePathLineEdit",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.docs-exporter/editor_uis/ui_elements/path_line_edit/FilePathLineEdit.gd"
+}, {
+"base": "MarkdownDocsExporter",
+"class": "HugoMarkdownDocsExporter",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.docs-exporter/godot_docs_scripts/HugoMarkdownDocsExporter.gd"
+}, {
+"base": "Reference",
+"class": "JsonIO",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.docs-exporter/godot_docs_scripts/JsonIO.gd"
+}, {
+"base": "JsonIO",
+"class": "MarkdownDocsExporter",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.docs-exporter/godot_docs_scripts/MarkdownDocsExporter.gd"
+}, {
+"base": "LineEdit",
+"class": "PathLineEdit",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.docs-exporter/editor_uis/ui_elements/path_line_edit/PathLineEdit.gd"
+}, {
+"base": "JsonIO",
+"class": "ReferenceFormatter",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.docs-exporter/godot_docs_scripts/ReferenceFormatter.gd"
+}, {
+"base": "TextEdit",
+"class": "ResizableTextEdit",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.docs-exporter/editor_uis/ui_elements/resizable_text_edit/ResizableTextEdit.gd"
+}, {
+"base": "Resource",
+"class": "StringArrayVariable",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.shared_variables/Array/StringArrayVariable.gd"
+}, {
+"base": "Resource",
+"class": "StringVariable",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.shared_variables/StringVariable.gd"
+}, {
+"base": "Resource",
+"class": "StringVariableArray",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.shared_variables/StringVariableArray.gd"
+}, {
+"base": "LineEdit",
+"class": "StringVariableLineEdit",
+"language": "GDScript",
+"path": "res://addons/eh_jogos.docs-exporter/editor_uis/ui_elements/string_line_edit/StringVariableLineEdit.gd"
+} ]
+_global_script_class_icons={
+"ArrayVariable": "",
+"BoolVariable": "",
+"BoolVariableCheckbox": "",
+"CategoryOptionalData": "",
+"CategoryOptionalDataDict": "",
+"CategoryOptions": "",
+"Collapsible": "",
+"DictionaryVariable": "",
+"FilePathLineEdit": "",
+"HugoMarkdownDocsExporter": "",
+"JsonIO": "",
+"MarkdownDocsExporter": "",
+"PathLineEdit": "",
+"ReferenceFormatter": "",
+"ResizableTextEdit": "",
+"StringArrayVariable": "",
+"StringVariable": "",
+"StringVariableArray": "",
+"StringVariableLineEdit": ""
+}
+
 [application]
 
 config/name="Country Clash- The Game"
@@ -36,17 +154,19 @@ convert_text_resources_to_binary_on_export=true
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/eh_jogos.docs-exporter/plugin.cfg" )
 
 [gui]
 
 theme/custom="res://Res/Themes/MenuTheme.tres"
-theme/custom_font="res://Res/Fonts/Res/macondo.tres"
+theme/custom_font="res://Res/Fonts/Res/nobile.tres"
 
 [importer_defaults]
 
 texture={
-"flags/filter": false
+"flags/anisotropic": true,
+"flags/filter": false,
+"flags/mipmaps": true
 }
 
 [input]
