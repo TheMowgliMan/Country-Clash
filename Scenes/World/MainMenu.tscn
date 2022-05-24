@@ -30,14 +30,14 @@ __meta__ = {
 }
 
 [node name="Start" type="Button" parent="Buttons/ButtonsContainer"]
-margin_top = 254.0
+margin_top = 234.0
 margin_right = 1152.0
-margin_bottom = 272.0
+margin_bottom = 262.0
 theme = ExtResource( 3 )
 text = "START"
 
 [node name="Options" type="Button" parent="Buttons/ButtonsContainer"]
-margin_top = 276.0
+margin_top = 266.0
 margin_right = 1152.0
 margin_bottom = 294.0
 hint_tooltip = "Does nothing, as of yet."
@@ -48,16 +48,16 @@ text = "OPTIONS"
 [node name="Credits" type="Button" parent="Buttons/ButtonsContainer"]
 margin_top = 298.0
 margin_right = 1152.0
-margin_bottom = 316.0
+margin_bottom = 326.0
 hint_tooltip = "Does nothing, as of yet."
 theme = ExtResource( 3 )
 disabled = true
 text = "CREDITS"
 
 [node name="Quit" type="Button" parent="Buttons/ButtonsContainer"]
-margin_top = 320.0
+margin_top = 330.0
 margin_right = 1152.0
-margin_bottom = 338.0
+margin_bottom = 358.0
 theme = ExtResource( 3 )
 text = "QUIT"
 
