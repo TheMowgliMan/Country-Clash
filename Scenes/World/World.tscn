@@ -10,8 +10,10 @@ script = ExtResource( 1 )
 [node name="RenderManager" type="Node2D" parent="."]
 
 [node name="MapRender" type="Sprite" parent="RenderManager"]
+centered = false
 
 [node name="Scroller" type="KinematicBody2D" parent="."]
+position = Vector2( 644, 358 )
 script = ExtResource( 2 )
 speed = 500
 
