@@ -23,9 +23,15 @@ custom_constants/margin_right = 64
 custom_constants/margin_top = 64
 custom_constants/margin_left = 64
 custom_constants/margin_bottom = 64
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="Label" type="Label" parent="Buttons"]
+margin_left = 64.0
+margin_top = 174.0
+margin_right = 1216.0
+margin_bottom = 198.0
+text = "COUNTRY CLASH: The Game"
+align = 1
+valign = 1
 
 [node name="ButtonsContainer" type="VBoxContainer" parent="Buttons"]
 margin_left = 64.0
