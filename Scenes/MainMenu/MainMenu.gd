@@ -7,6 +7,5 @@ func _ready():
 func _on_Start_pressed():
 	get_tree().change_scene("res://Scenes/UI/Mapgen.tscn")
 
-# Quit the game
 func _on_Quit_pressed():
 	get_tree().quit()

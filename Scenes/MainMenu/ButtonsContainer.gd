@@ -1,6 +1,5 @@
 extends VBoxContainer
 
-
 # Not needed
 #var newcenter;
 #var oldcenter;
@@ -9,6 +8,7 @@ extends VBoxContainer
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
+
 # HACK: Note to 3qc: If you use the "Full Rect" anchor in the editor, it will automatically center.
 ## Called each frame.
 #func _process(delta):
@@ -17,3 +17,4 @@ func _ready():
 #	if not newcenter == oldcenter:
 #		self.rect_position = Vector2(newcenter.x - size.x, newcenter.y - size.y)
 #	oldcenter = newcenter
+
