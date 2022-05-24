@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scenes/World/ButtonsContainer.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/World/MainMenu.gd" type="Script" id=2]
 
-[node name="Node2D" type="Node2D"]
+[node name="Menu" type="Node2D"]
+script = ExtResource( 2 )
 
 [node name="ButtonsContainer" type="VBoxContainer" parent="."]
 anchor_left = 0.5
@@ -46,3 +48,6 @@ text = "QUIT"
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+
+[connection signal="pressed" from="ButtonsContainer/Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="ButtonsContainer/Quit" to="." method="_on_Quit_pressed"]
