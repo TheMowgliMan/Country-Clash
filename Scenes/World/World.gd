@@ -2,10 +2,12 @@ extends Node2D
 
 var texture_map = []
 var map = []
+# For city adding
+var island_map = []
 
 # Format: ..., {"name" : "citynamia", "position" : Vector2(23, 32), "population": 32000}, ...
 var cities = []
-export var map_size_square = 512
+export var map_size_square = 2048
 var map_generated = false
 
 export var sea_level = 0.11
@@ -54,6 +56,14 @@ func set_terrain_map(x, y, data):
 # Get the terrain height an any particular x/y pair
 func get_terrain_map(x, y):
 	return map[(y * map_size_square) + x]
+	
+func set_island_map(x, y, data):
+	assign_map_mutex.lock()
+	island_map[(y * map_size_square) + x] = data
+	assign_map_mutex.unlock()
+	
+func get_island_map(x, y):
+	return island_map[(y * map_size_square) + x]
 
 # Generate the map, terrain-based and then convert it to textures
 # TODO: Use multithreading, at least 3
@@ -62,6 +72,8 @@ func gen_map():
 	# Fill out the maps with empty data
 	for _i in range(0, map_size_square * map_size_square):
 		map.append(0)
+		
+		island_map.append(false)
 		
 		# Have to do this three times to get the textures in, as there are 3 color components
 		texture_map.append(0)
@@ -85,12 +97,17 @@ func gen_map():
 			# Sets the map at that spot
 			set_terrain_map(x, y, noise)
 			
+			# Mark it as land
+			if noise > sea_level:
+				set_island_map(x, y, true)
+			
 	# Generate Cities
-	for _i in range(0, round(map_size_square * map_size_square / (48 * 48))):
-		var position = Vector2(rand_range(0, map_size_square), rand_range(0, map_size_square))
+	for _i in range(0, round(map_size_square * map_size_square / (64 * 64))):
+		var position = Vector2(round(rand_range(0, map_size_square - 1)), round(rand_range(0, map_size_square - 1)))
 		
-		if get_terrain_map(position.x, position.y) > sea_level + 0.08:
+		if get_island_map(position.x, position.y):
 			cities.append({"name" : generate_city_name(), "position" : position, "population": rand_range(3000, 80000)})
+			print(position)
 	
 	# Add the textures
 	refresh_map()
