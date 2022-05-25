@@ -82,7 +82,7 @@ func gen_map():
 			
 	# Generate Cities
 	for i in range(0, map_size_square * map_size_square / (32 * 32)):
-		
+		pass
 	
 	# Add the textures
 	refresh_map()
