@@ -2,11 +2,17 @@ extends Node2D
 
 var texture_map = []
 var map = []
+# For city adding
+var island_map = []
 
 # Format: ..., {"name" : "citynamia", "position" : Vector2(23, 32), "population": 32000}, ...
 var cities = []
-export var map_size_square = 512
+export var map_size_square = 2048
 var map_generated = false
+
+export var sea_level = 0.11
+
+var city = preload("res://Scenes/Cities/City.tscn")
 
 var terrain_noise = OpenSimplexNoise.new()
 var big_noise = OpenSimplexNoise.new()
@@ -22,6 +28,7 @@ var zoom_out = false
 
 onready var map_sprite = $RenderManager/MapRender
 onready var camera = $Scroller/Camera
+onready var city_controller = $Cities
 
 var draw_mutex = Mutex.new()
 var assign_map_mutex = Mutex.new()
@@ -30,25 +37,33 @@ var map_scale = 1
 
 # Return the three texture components present at any particular x,y pair
 func get_terrain_texture_map(x, y):
-	return [texture_map[x * (map_size_square * 3) + y * 3], texture_map[x * (map_size_square * 3) + y * 3 + 1], texture_map[x * (map_size_square * 3) + y * 3 + 2]]
+	return [texture_map[y * (map_size_square * 3) + x * 3], texture_map[y * (map_size_square * 3) + x * 3 + 1], texture_map[y * (map_size_square * 3) + x * 3 + 2]]
 
 # Set the three texture components at any x,y pair
 func set_terrain_texture_map(x, y, data1, data2, data3):
 	assign_map_mutex.lock()
-	texture_map[x * (map_size_square * 3) + y * 3] = data1
-	texture_map[x * (map_size_square * 3) + y * 3 + 1] = data2
-	texture_map[x * (map_size_square * 3) + y * 3 + 2] = data3
+	texture_map[y * (map_size_square * 3) + x * 3] = data1
+	texture_map[y * (map_size_square * 3) + x * 3 + 1] = data2
+	texture_map[y * (map_size_square * 3) + x * 3 + 2] = data3
 	assign_map_mutex.unlock()
 
 # Set the terrain height at any particular x/y pair
 func set_terrain_map(x, y, data):
 	assign_map_mutex.lock()
-	map[x * map_size_square + y] = data
+	map[(y * map_size_square) + x] = data
 	assign_map_mutex.unlock()
 	
 # Get the terrain height an any particular x/y pair
 func get_terrain_map(x, y):
-	return map[x * map_size_square + y]
+	return map[(y * map_size_square) + x]
+	
+func set_island_map(x, y, data):
+	assign_map_mutex.lock()
+	island_map[(y * map_size_square) + x] = data
+	assign_map_mutex.unlock()
+	
+func get_island_map(x, y):
+	return island_map[(y * map_size_square) + x]
 
 # Generate the map, terrain-based and then convert it to textures
 # TODO: Use multithreading, at least 3
@@ -58,14 +73,16 @@ func gen_map():
 	for _i in range(0, map_size_square * map_size_square):
 		map.append(0)
 		
+		island_map.append(false)
+		
 		# Have to do this three times to get the textures in, as there are 3 color components
 		texture_map.append(0)
 		texture_map.append(0)
 		texture_map.append(0)
 	
 	# Add the terrain data
-	for x in range(0, map_size_square):
-		for y in range(0, map_size_square):
+	for y in range(0, map_size_square):
+		for x in range(0, map_size_square):
 			
 			# Get an adjuster noise to change the regular and big noise slightly
 			var adjuster_noise = terrain_adjuster.get_noise_2d(x, y)
@@ -80,9 +97,17 @@ func gen_map():
 			# Sets the map at that spot
 			set_terrain_map(x, y, noise)
 			
+			# Mark it as land
+			if noise > sea_level:
+				set_island_map(x, y, true)
+			
 	# Generate Cities
-	for i in range(0, map_size_square * map_size_square / (32 * 32)):
-		pass
+	for _i in range(0, round(map_size_square * map_size_square / (64 * 64))):
+		var position = Vector2(round(rand_range(0, map_size_square - 1)), round(rand_range(0, map_size_square - 1)))
+		
+		if get_island_map(position.x, position.y):
+			cities.append({"name" : generate_city_name(), "position" : position, "population": rand_range(3000, 80000)})
+			print(position)
 	
 	# Add the textures
 	refresh_map()
@@ -93,9 +118,9 @@ func refresh_map():
 		for y in range(0, map_size_square):
 			var noise = get_terrain_map(x, y)
 			
-			if noise > 0.12:
+			if noise > sea_level + 0.01:
 				set_terrain_texture_map(x, y, 10 + round((noise-0.11) * 245), 128 + round((noise-0.11) * 127), 25 + round((noise-0.11) * 230))
-			elif noise > 0.11:
+			elif noise > sea_level:
 				set_terrain_texture_map(x, y, 206, 202, 159)
 			else:
 				set_terrain_texture_map(x, y, 70 + round((noise) * 70), 70 + round((noise) * 70), 230 + round((noise) * 200))
@@ -204,6 +229,12 @@ func _ready():
 	# Sets the texture to a sprite
 	map_sprite.texture = texture
 	
+	# Set it's position for alignment
+	var align = map_size_square / 2
+	map_sprite.position = Vector2(align, align)
+	
+	spawn_cities()
+	
 # A thread for set_image_from_map()
 func sifm_thread(data):
 	var texture = set_image_from_map_arg(data[0], data[1])
@@ -287,10 +318,19 @@ func generate_city_name():
 	var result = ""
 	
 	# Combine the letters into some words
-	for i in range(0, rand_range(2, 4)):
+	for _i in range(0, rand_range(2, 4)):
 		result = result + consonants[rand_range(0, len(consonants) - 1)] + vowels[rand_range(0, len(vowels) - 1)]
 		
 		if rand_range(1, 3) == 1:
 			result = result + consonants[rand_range(0, len(consonants) - 1)]
 			
 	return result.capitalize()
+
+func spawn_cities():
+	for i in cities:
+		var ins = city.instance()
+		
+		ins.city_name = i["name"]
+		ins.position = i["position"]
+		
+		city_controller.add_child(ins)
