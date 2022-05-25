@@ -7,7 +7,7 @@ var island_map = []
 
 # Format: ..., {"name" : "citynamia", "position" : Vector2(23, 32), "population": 32000}, ...
 var cities = []
-export var map_size_square = 2048
+export var map_size_square = 1024
 var map_generated = false
 
 export var sea_level = 0.11
@@ -102,7 +102,7 @@ func gen_map():
 				set_island_map(x, y, true)
 			
 	# Generate Cities
-	for _i in range(0, round(map_size_square * map_size_square / (64 * 64))):
+	for _i in range(0, round(map_size_square * map_size_square / (80 * 80))):
 		var position = Vector2(round(rand_range(0, map_size_square - 1)), round(rand_range(0, map_size_square - 1)))
 		
 		if get_island_map(position.x, position.y):
@@ -271,7 +271,7 @@ func _process(delta):
 	if frame % 60 == 20 and refresh_map_thread == null:
 		# COPY: Copied and modified from docs
 		refresh_map_thread = Thread.new()
-		refresh_map_thread.start(self, "rm_thread", [texture_map, map_size_square])
+		refresh_map_thread.start(self, "rm_thread", map_size_square)
 		
 	# Zoom in or out
 	if zoom_in:
