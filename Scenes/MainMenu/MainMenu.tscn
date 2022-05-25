@@ -1,22 +1,14 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Scenes/MainMenu/ButtonsContainer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/MainMenu/MainMenu.gd" type="Script" id=2]
 [ext_resource path="res://Res/Themes/MenuTheme.tres" type="Theme" id=3]
-[ext_resource path="res://Res/Fonts/Res/macondo.tres" type="DynamicFont" id=4]
 
 [node name="Menu" type="CanvasLayer"]
 script = ExtResource( 2 )
 
 [node name="Buttons" type="MarginContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -640.0
-margin_top = -360.0
-margin_right = 640.0
-margin_bottom = 360.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 size_flags_horizontal = 5
 size_flags_vertical = 5
 custom_constants/margin_right = 64
@@ -24,61 +16,56 @@ custom_constants/margin_top = 64
 custom_constants/margin_left = 64
 custom_constants/margin_bottom = 64
 
-[node name="Label" type="Label" parent="Buttons"]
-margin_left = 64.0
-margin_top = 174.0
-margin_right = 1216.0
-margin_bottom = 198.0
+[node name="UIContainer" type="VBoxContainer" parent="Buttons"]
+alignment = 1
+
+[node name="Label" type="Label" parent="Buttons/UIContainer"]
+margin_right = 492.0
+margin_bottom = 48.0
+theme = ExtResource( 3 )
 text = "COUNTRY CLASH: The Game"
 align = 1
 valign = 1
 
-[node name="ButtonsContainer" type="VBoxContainer" parent="Buttons"]
-margin_left = 64.0
-margin_top = 64.0
-margin_right = 1216.0
-margin_bottom = 656.0
+[node name="ButtonsContainer" type="VBoxContainer" parent="Buttons/UIContainer"]
+margin_top = 52.0
+margin_right = 492.0
+margin_bottom = 168.0
 alignment = 1
-script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Start" type="Button" parent="Buttons/ButtonsContainer"]
-margin_top = 234.0
-margin_right = 1152.0
-margin_bottom = 262.0
+[node name="Start" type="Button" parent="Buttons/UIContainer/ButtonsContainer"]
+margin_right = 492.0
+margin_bottom = 26.0
 theme = ExtResource( 3 )
-custom_fonts/font = ExtResource( 4 )
 text = "START"
 
-[node name="Options" type="Button" parent="Buttons/ButtonsContainer"]
-margin_top = 266.0
-margin_right = 1152.0
-margin_bottom = 294.0
+[node name="Options" type="Button" parent="Buttons/UIContainer/ButtonsContainer"]
+margin_top = 30.0
+margin_right = 492.0
+margin_bottom = 56.0
 hint_tooltip = "Does nothing, as of yet."
 theme = ExtResource( 3 )
-custom_fonts/font = ExtResource( 4 )
 disabled = true
 text = "OPTIONS"
 
-[node name="Credits" type="Button" parent="Buttons/ButtonsContainer"]
-margin_top = 298.0
-margin_right = 1152.0
-margin_bottom = 326.0
+[node name="Credits" type="Button" parent="Buttons/UIContainer/ButtonsContainer"]
+margin_top = 60.0
+margin_right = 492.0
+margin_bottom = 86.0
 hint_tooltip = "Does nothing, as of yet."
 theme = ExtResource( 3 )
-custom_fonts/font = ExtResource( 4 )
 disabled = true
 text = "CREDITS"
 
-[node name="Quit" type="Button" parent="Buttons/ButtonsContainer"]
-margin_top = 330.0
-margin_right = 1152.0
-margin_bottom = 358.0
+[node name="Quit" type="Button" parent="Buttons/UIContainer/ButtonsContainer"]
+margin_top = 90.0
+margin_right = 492.0
+margin_bottom = 116.0
 theme = ExtResource( 3 )
-custom_fonts/font = ExtResource( 4 )
 text = "QUIT"
 
-[connection signal="pressed" from="Buttons/ButtonsContainer/Start" to="." method="_on_Start_pressed"]
-[connection signal="pressed" from="Buttons/ButtonsContainer/Quit" to="." method="_on_Quit_pressed"]
+[connection signal="pressed" from="Buttons/UIContainer/ButtonsContainer/Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="Buttons/UIContainer/ButtonsContainer/Quit" to="." method="_on_Quit_pressed"]
