@@ -1,12 +1,16 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
+[ext_resource path="res://Res/Textures/Backgrounds/globe.jpg" type="Texture" id=1]
 [ext_resource path="res://Scenes/MainMenu/MainMenu.gd" type="Script" id=2]
 [ext_resource path="res://Res/Themes/MenuTheme.tres" type="Theme" id=3]
 
 [node name="Menu" type="CanvasLayer"]
 script = ExtResource( 2 )
 
-[node name="Buttons" type="MarginContainer" parent="."]
+[node name="CanvasLayer3" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="Buttons" type="MarginContainer" parent="CanvasLayer3"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 5
@@ -16,56 +20,71 @@ custom_constants/margin_top = 64
 custom_constants/margin_left = 64
 custom_constants/margin_bottom = 64
 
-[node name="UIContainer" type="VBoxContainer" parent="Buttons"]
+[node name="UIContainer" type="VBoxContainer" parent="CanvasLayer3/Buttons"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 1216.0
+margin_bottom = 656.0
 alignment = 1
 
-[node name="Label" type="Label" parent="Buttons/UIContainer"]
-margin_right = 492.0
-margin_bottom = 48.0
+[node name="Label" type="Label" parent="CanvasLayer3/Buttons/UIContainer"]
+margin_top = 212.0
+margin_right = 1152.0
+margin_bottom = 260.0
 theme = ExtResource( 3 )
 text = "COUNTRY CLASH: The Game"
 align = 1
 valign = 1
 
-[node name="ButtonsContainer" type="VBoxContainer" parent="Buttons/UIContainer"]
-margin_top = 52.0
-margin_right = 492.0
-margin_bottom = 168.0
+[node name="ButtonsContainer" type="VBoxContainer" parent="CanvasLayer3/Buttons/UIContainer"]
+margin_top = 264.0
+margin_right = 1152.0
+margin_bottom = 380.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Start" type="Button" parent="Buttons/UIContainer/ButtonsContainer"]
-margin_right = 492.0
+[node name="Start" type="Button" parent="CanvasLayer3/Buttons/UIContainer/ButtonsContainer"]
+margin_right = 1152.0
 margin_bottom = 26.0
 theme = ExtResource( 3 )
 text = "START"
 
-[node name="Options" type="Button" parent="Buttons/UIContainer/ButtonsContainer"]
+[node name="Options" type="Button" parent="CanvasLayer3/Buttons/UIContainer/ButtonsContainer"]
 margin_top = 30.0
-margin_right = 492.0
+margin_right = 1152.0
 margin_bottom = 56.0
 hint_tooltip = "Does nothing, as of yet."
 theme = ExtResource( 3 )
 disabled = true
 text = "OPTIONS"
 
-[node name="Credits" type="Button" parent="Buttons/UIContainer/ButtonsContainer"]
+[node name="Credits" type="Button" parent="CanvasLayer3/Buttons/UIContainer/ButtonsContainer"]
 margin_top = 60.0
-margin_right = 492.0
+margin_right = 1152.0
 margin_bottom = 86.0
 hint_tooltip = "Does nothing, as of yet."
 theme = ExtResource( 3 )
 disabled = true
 text = "CREDITS"
 
-[node name="Quit" type="Button" parent="Buttons/UIContainer/ButtonsContainer"]
+[node name="Quit" type="Button" parent="CanvasLayer3/Buttons/UIContainer/ButtonsContainer"]
 margin_top = 90.0
-margin_right = 492.0
+margin_right = 1152.0
 margin_bottom = 116.0
 theme = ExtResource( 3 )
 text = "QUIT"
 
-[connection signal="pressed" from="Buttons/UIContainer/ButtonsContainer/Start" to="." method="_on_Start_pressed"]
-[connection signal="pressed" from="Buttons/UIContainer/ButtonsContainer/Quit" to="." method="_on_Quit_pressed"]
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="Background" type="TextureRect" parent="BackgroundLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 7
+
+[connection signal="pressed" from="CanvasLayer3/Buttons/UIContainer/ButtonsContainer/Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="CanvasLayer3/Buttons/UIContainer/ButtonsContainer/Quit" to="." method="_on_Quit_pressed"]
