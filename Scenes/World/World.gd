@@ -40,6 +40,7 @@ func get_terrain_texture_map(x, y):
 	return [texture_map[y * (map_size_square * 3) + x * 3], texture_map[y * (map_size_square * 3) + x * 3 + 1], texture_map[y * (map_size_square * 3) + x * 3 + 2]]
 
 # Set the three texture components at any x,y pair
+# Usage: set_terrain_text_map(x, y, redvalue, greenvalue, bluevalue)
 func set_terrain_texture_map(x, y, data1, data2, data3):
 	assign_map_mutex.lock()
 	texture_map[y * (map_size_square * 3) + x * 3] = data1
@@ -118,7 +119,11 @@ func refresh_map():
 		for y in range(0, map_size_square):
 			var noise = get_terrain_map(x, y)
 			
-			if noise > sea_level + 0.01:
+			if noise > sea_level + 0.25:
+				set_terrain_texture_map(x, y, 225 + round((noise-0.11) * 30), 225 + round((noise-0.11) * 30), 245 + round((noise-0.11) * 10))
+			elif noise > sea_level + 0.2:
+				set_terrain_texture_map(x, y, 64 + round((noise-0.11) * 191), 64 + round((noise-0.11) * 191), 64 + round((noise-0.11) * 191))
+			elif noise > sea_level + 0.015:
 				set_terrain_texture_map(x, y, 10 + round((noise-0.11) * 245), 128 + round((noise-0.11) * 127), 25 + round((noise-0.11) * 230))
 			elif noise > sea_level:
 				set_terrain_texture_map(x, y, 206, 202, 159)
@@ -135,14 +140,20 @@ func refresh_map_arg(mss):
 			
 			# Set the terrain type depending on height
 			# Adjusts the color slightly based on height/depth
-			if noise > 0.12:
-				# Grass
+			if noise > sea_level + 0.25:
+				# Snowy peaks
+				set_terrain_texture_map(x, y, 225 + round((noise-0.11) * 30), 225 + round((noise-0.11) * 30), 245 + round((noise-0.11) * 10))
+			elif noise > sea_level + 0.2:
+				# Mountain slopes
+				set_terrain_texture_map(x, y, 64 + round((noise-0.11) * 191), 64 + round((noise-0.11) * 191), 64 + round((noise-0.11) * 191))
+			elif noise > sea_level + 0.015:
+				# Grassy plains
 				set_terrain_texture_map(x, y, 10 + round((noise-0.11) * 245), 128 + round((noise-0.11) * 127), 25 + round((noise-0.11) * 230))
-			elif noise > 0.11:
-				# Beach
+			elif noise > sea_level:
+				# Beaches
 				set_terrain_texture_map(x, y, 206, 202, 159)
 			else:
-				# Ocean
+				# Water
 				set_terrain_texture_map(x, y, 70 + round((noise) * 70), 70 + round((noise) * 70), 230 + round((noise) * 200))
 
 # Adds the map texture to the sprite
