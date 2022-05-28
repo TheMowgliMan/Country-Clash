@@ -7,7 +7,7 @@ var island_map = []
 
 # Format: ..., {"name" : "citynamia", "position" : Vector2(23, 32), "population": 32000}, ...
 var cities = []
-export var map_size_square = 1024
+export var map_size_square = 512
 var map_generated = false
 
 export var sea_level = 0.11
@@ -119,7 +119,7 @@ func refresh_map():
 		for y in range(0, map_size_square):
 			var noise = get_terrain_map(x, y)
 			
-			if noise > sea_level + 0.25:
+			if noise > sea_level + 0.28:
 				set_terrain_texture_map(x, y, 225 + round((noise-0.11) * 30), 225 + round((noise-0.11) * 30), 245 + round((noise-0.11) * 10))
 			elif noise > sea_level + 0.2:
 				set_terrain_texture_map(x, y, 64 + round((noise-0.11) * 191), 64 + round((noise-0.11) * 191), 64 + round((noise-0.11) * 191))
