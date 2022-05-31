@@ -121,7 +121,7 @@ func refresh_map():
 		for y in range(0, map_size_square):
 			var noise = get_terrain_map(x, y)
 			
-			var adj = abs((y - (map_size_square / 2)) / 3)
+			var adj = abs((y - (map_size_square / 2)) / (map_size_square / 128))
 			var artic_adjust = abs(y - (map_size_square / 2))
 			
 			if noise > sea_level + 0.28:
@@ -129,7 +129,7 @@ func refresh_map():
 			elif noise > sea_level + 0.2:
 				set_terrain_texture_map(x, y, 80, 80, 80)
 			elif noise > sea_level + 0.015:
-				if artic_adjust < map_size_square / 2 - (artic_threshold + rand_range(-2, 2)):
+				if artic_adjust < map_size_square / 2 - (artic_threshold + rand_range(-8, 8)):
 					set_terrain_texture_map(x, y, clamp(10 + round((noise-0.11) * 245 + adj), 0, 255), clamp(128 + round((noise-0.11) * 127 + adj), 0, 255), clamp(25 + round((noise-0.11) * 230 + adj), 0, 255))
 				else:
 					set_terrain_texture_map(x, y, 225, 225, 245)
@@ -147,7 +147,9 @@ func refresh_map_arg(mss):
 			var noise = get_terrain_map(x, y)
 			
 			# Used to edit the brightness based on latitude
-			var adj = abs((y - (mss / 2)) / 3)
+			var adj = abs((y - (mss / 2)) / (mss / 128))
+			
+			# Adds the polar regions
 			var artic_adjust = abs(y - (mss / 2))
 			
 			# Set the terrain type depending on height
@@ -160,7 +162,7 @@ func refresh_map_arg(mss):
 				set_terrain_texture_map(x, y, 80, 80, 80)
 			elif noise > sea_level + 0.015:
 				# Grassy plains / artic area
-				if artic_adjust < mss / 2 - (artic_threshold + rand_range(-2, 2)):
+				if artic_adjust < mss / 2 - (artic_threshold + rand_range(-8, 8)):
 					set_terrain_texture_map(x, y, clamp(10 + round((noise-0.11) * 245 + adj), 0, 255), clamp(128 + round((noise-0.11) * 127 + adj), 0, 255), clamp(25 + round((noise-0.11) * 230 + adj), 0, 255))
 				else:
 					set_terrain_texture_map(x, y, 225, 225, 245)
