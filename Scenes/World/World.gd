@@ -121,7 +121,7 @@ func refresh_map():
 		for y in range(0, map_size_square):
 			var noise = get_terrain_map(x, y)
 			
-			var adj = abs((y - (map_size_square / 2)) / (map_size_square / 80))
+			var adj = abs((y - (map_size_square / 2)) / (map_size_square / 192))
 			var artic_adjust = abs(y - (map_size_square / 2))
 			
 			if noise > sea_level + 0.28:
@@ -147,7 +147,7 @@ func refresh_map_arg(mss):
 			var noise = get_terrain_map(x, y)
 			
 			# Used to edit the brightness based on latitude
-			var adj = abs((y - (mss / 2)) / (mss / 80))
+			var adj = abs((y - (mss / 2)) / (mss / 192))
 			
 			# Adds the polar regions
 			var artic_adjust = abs(y - (mss / 2))
