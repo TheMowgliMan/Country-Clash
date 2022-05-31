@@ -119,12 +119,14 @@ func refresh_map():
 		for y in range(0, map_size_square):
 			var noise = get_terrain_map(x, y)
 			
+			var adj = abs((y - (map_size_square / 2)) / 3)
+			
 			if noise > sea_level + 0.28:
-				set_terrain_texture_map(x, y, 225 + round((noise-0.11) * 30), 225 + round((noise-0.11) * 30), 245 + round((noise-0.11) * 10))
+				set_terrain_texture_map(x, y, 225, 225, 245)
 			elif noise > sea_level + 0.2:
-				set_terrain_texture_map(x, y, 64 + round((noise-0.11) * 191), 64 + round((noise-0.11) * 191), 64 + round((noise-0.11) * 191))
+				set_terrain_texture_map(x, y, 80, 80, 80)
 			elif noise > sea_level + 0.015:
-				set_terrain_texture_map(x, y, 10 + round((noise-0.11) * 245), 128 + round((noise-0.11) * 127), 25 + round((noise-0.11) * 230))
+				set_terrain_texture_map(x, y, clamp(10 + round((noise-0.11) * 245 + adj), 0, 255), clamp(128 + round((noise-0.11) * 127 + adj), 0, 255), clamp(25 + round((noise-0.11) * 230 + adj), 0, 255))
 			elif noise > sea_level:
 				set_terrain_texture_map(x, y, 206, 202, 159)
 			else:
@@ -138,17 +140,20 @@ func refresh_map_arg(mss):
 			# COPY: Copied from an earlier iteration of the map generator
 			var noise = get_terrain_map(x, y)
 			
+			# Used to edit the brightness based on latitude
+			var adj = abs((y - (mss / 2)) / 3)
+			
 			# Set the terrain type depending on height
 			# Adjusts the color slightly based on height/depth
 			if noise > sea_level + 0.25:
 				# Snowy peaks
-				set_terrain_texture_map(x, y, 225 + round((noise-0.11) * 30), 225 + round((noise-0.11) * 30), 245 + round((noise-0.11) * 10))
+				set_terrain_texture_map(x, y, 225, 225, 245)
 			elif noise > sea_level + 0.2:
 				# Mountain slopes
-				set_terrain_texture_map(x, y, 64 + round((noise-0.11) * 191), 64 + round((noise-0.11) * 191), 64 + round((noise-0.11) * 191))
+				set_terrain_texture_map(x, y, 80, 80, 80)
 			elif noise > sea_level + 0.015:
 				# Grassy plains
-				set_terrain_texture_map(x, y, 10 + round((noise-0.11) * 245), 128 + round((noise-0.11) * 127), 25 + round((noise-0.11) * 230))
+				set_terrain_texture_map(x, y, clamp(10 + round((noise-0.11) * 245 + adj), 0, 255), clamp(128 + round((noise-0.11) * 127 + adj), 0, 255), clamp(25 + round((noise-0.11) * 230 + adj), 0, 255))
 			elif noise > sea_level:
 				# Beaches
 				set_terrain_texture_map(x, y, 206, 202, 159)
