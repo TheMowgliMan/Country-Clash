@@ -6,6 +6,7 @@
 
 [node name="World" type="Node2D"]
 script = ExtResource( 1 )
+artic_threshold = 40
 
 [node name="RenderManager" type="Node2D" parent="."]
 

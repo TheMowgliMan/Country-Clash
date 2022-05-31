@@ -8,6 +8,8 @@ var island_map = []
 # Format: ..., {"name" : "citynamia", "position" : Vector2(23, 32), "population": 32000}, ...
 var cities = []
 export var map_size_square = 512
+# Adjusts artic size. Doesn't need to be thread-safe, as is read-only in-game
+export var artic_threshold = 64
 var map_generated = false
 
 export var sea_level = 0.11
@@ -120,13 +122,17 @@ func refresh_map():
 			var noise = get_terrain_map(x, y)
 			
 			var adj = abs((y - (map_size_square / 2)) / 3)
+			var artic_adjust = abs(y - (map_size_square / 2))
 			
 			if noise > sea_level + 0.28:
 				set_terrain_texture_map(x, y, 225, 225, 245)
 			elif noise > sea_level + 0.2:
 				set_terrain_texture_map(x, y, 80, 80, 80)
 			elif noise > sea_level + 0.015:
-				set_terrain_texture_map(x, y, clamp(10 + round((noise-0.11) * 245 + adj), 0, 255), clamp(128 + round((noise-0.11) * 127 + adj), 0, 255), clamp(25 + round((noise-0.11) * 230 + adj), 0, 255))
+				if artic_adjust < map_size_square / 2 - (artic_threshold + rand_range(-2, 2)):
+					set_terrain_texture_map(x, y, clamp(10 + round((noise-0.11) * 245 + adj), 0, 255), clamp(128 + round((noise-0.11) * 127 + adj), 0, 255), clamp(25 + round((noise-0.11) * 230 + adj), 0, 255))
+				else:
+					set_terrain_texture_map(x, y, 225, 225, 245)
 			elif noise > sea_level:
 				set_terrain_texture_map(x, y, 206, 202, 159)
 			else:
@@ -142,6 +148,7 @@ func refresh_map_arg(mss):
 			
 			# Used to edit the brightness based on latitude
 			var adj = abs((y - (mss / 2)) / 3)
+			var artic_adjust = abs(y - (mss / 2))
 			
 			# Set the terrain type depending on height
 			# Adjusts the color slightly based on height/depth
@@ -152,8 +159,11 @@ func refresh_map_arg(mss):
 				# Mountain slopes
 				set_terrain_texture_map(x, y, 80, 80, 80)
 			elif noise > sea_level + 0.015:
-				# Grassy plains
-				set_terrain_texture_map(x, y, clamp(10 + round((noise-0.11) * 245 + adj), 0, 255), clamp(128 + round((noise-0.11) * 127 + adj), 0, 255), clamp(25 + round((noise-0.11) * 230 + adj), 0, 255))
+				# Grassy plains / artic area
+				if artic_adjust < mss / 2 - (artic_threshold + rand_range(-2, 2)):
+					set_terrain_texture_map(x, y, clamp(10 + round((noise-0.11) * 245 + adj), 0, 255), clamp(128 + round((noise-0.11) * 127 + adj), 0, 255), clamp(25 + round((noise-0.11) * 230 + adj), 0, 255))
+				else:
+					set_terrain_texture_map(x, y, 225, 225, 245)
 			elif noise > sea_level:
 				# Beaches
 				set_terrain_texture_map(x, y, 206, 202, 159)
